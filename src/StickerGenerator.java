@@ -12,7 +12,7 @@ public class StickerGenerator {
     public void CreateImage(InputStream inputStream, String archiveName) throws Exception{
 
         // Leitura da imagem
-        // InputStream inputStream = new FileInputStream(new File("images/entry/TopMovies_3.jpg"));
+        // InputStream inputStream = new FileInputStream(new File("src/images/entry/TopMovies_3.jpg"));
         // InputStream inputStream = 
         //     new URL("https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies_3.jpg")
         //         .openStream();
@@ -37,6 +37,6 @@ public class StickerGenerator {
         graphics.drawString("BEGINS", 465, novaAltura - 50);
 
         // Escrever a nova imagem em um arquivo
-        ImageIO.write(newImage, "png", new File("images/output/" + archiveName + ".png"));
+        ImageIO.write(newImage, "png", new File("src/images/output/" + archiveName + ".png"));
     }
 }

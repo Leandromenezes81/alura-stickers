@@ -8,8 +8,8 @@
 *.ctxt
 
 # Images
-images/entry/*
-images/output/*
+src/images/entry/*
+src/images/output/*
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
