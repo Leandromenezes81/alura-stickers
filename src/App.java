@@ -1,4 +1,6 @@
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -17,10 +19,10 @@ public class App {
         // Consumo de Dados do iMDB
 
         // Fazer uma conexão HTTP para buscar os Top 250 Filmes
-        // String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
+        String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
         // String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopTVs.json";
         // String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/MostPopularTVs.json";
-        String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/MostPopularMovies.json";
+        // String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/MostPopularMovies.json";
         
         URI adress = URI.create(url);
 
@@ -42,10 +44,19 @@ public class App {
         // Exibir e manipular os dados.
 
         System.out.println("Os " + listOfMovies.size() + " mais assistidos:");
+        
+        var stickerGenerator = new StickerGenerator();
 
         for (Map<String,String> film : listOfMovies) {
-            System.out.println("\u001b[31m\u001b[1m Title:\u001b[m " + film.get("title"));
-            System.out.println("\u001b[31m\u001b[1m Poster:\u001b[m " + film.get("image"));
+            String imageUrl = film.get("image");
+            String title = film.get("title");
+
+            InputStream inputStream = new URL(imageUrl).openStream();
+            String archiveName = title;
+            stickerGenerator.CreateImage(inputStream, archiveName);
+
+            System.out.println("\u001b[31m\u001b[1m Title:\u001b[m " + title);
+            System.out.println("\u001b[31m\u001b[1m Poster:\u001b[m " + imageUrl);
             System.out.println("\u001b[31m\u001b[1m Ranking:\u001b[m " + film.get("imDbRating"));
             
             double ranking = Double.parseDouble(film.get("imDbRating"));
