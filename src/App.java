@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
@@ -44,23 +46,37 @@ public class App {
         // Exibir e manipular os dados.
 
         System.out.println("Os " + listOfMovies.size() + " mais assistidos:");
-        
+
+        var directory = new File("images/output");
+        directory.mkdirs();
+
         var stickerGenerator = new StickerGenerator();
 
         for (Map<String,String> film : listOfMovies) {
             String imageUrl = film.get("image");
             String title = film.get("title");
+            String imDbRating = film.get("imDbRating");
+            double ranking = Double.parseDouble(imDbRating);
+            int numberOfStars = (int) ranking;
+            String stickerText;
+            InputStream stickerImageRating;
+            
+            if (numberOfStars <= 8) {
+                stickerText = "HHMMMMMM...";
+                stickerImageRating = new FileInputStream(new File("images/input/dislike.png"));
+            } else {
+                stickerText = "TOPZERA!";
+                stickerImageRating = new FileInputStream(new File("images/input/like.png"));
+            }
 
-            InputStream inputStream = new URL(imageUrl).openStream();
-            String archiveName = title;
-            stickerGenerator.CreateImage(inputStream, archiveName);
+            InputStream imageFilm = new URL(imageUrl).openStream();
+            String archiveName = directory.getPath() + "/" + title;
+            stickerGenerator.CreateImage(imageFilm, archiveName, stickerText, stickerImageRating);
 
             System.out.println("\u001b[31m\u001b[1m Title:\u001b[m " + title);
             System.out.println("\u001b[31m\u001b[1m Poster:\u001b[m " + imageUrl);
-            System.out.println("\u001b[31m\u001b[1m Ranking:\u001b[m " + film.get("imDbRating"));
+            System.out.println("\u001b[31m\u001b[1m Ranking:\u001b[m " + imDbRating);
             
-            double ranking = Double.parseDouble(film.get("imDbRating"));
-            int numberOfStars = (int) ranking;            
             for (int i = 1; i <= numberOfStars; i++) {
                 System.out.print("\u2B50");
             }
